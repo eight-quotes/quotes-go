@@ -19,7 +19,7 @@ func main() {
 	connection.DBConnection()
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost, http://localhost:5173 , http://127.0.0.1:5173",
+		AllowOrigins: "https://magical-malabi-19c8d6.netlify.app",
 		AllowHeaders: "Origin, Content-Type, Accept",
 	}))
 	app.Get("/", func(c *fiber.Ctx) error {
