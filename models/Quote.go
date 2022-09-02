@@ -7,7 +7,6 @@ import (
 
 type Quote struct {
 	gorm.Model
-	ID            uint   `gorm:"primary_key"`
 	Client        string `gorm:"column:client"`
 	Telephone     string `gorm:"column:telephone"`
 	DateQuoteInit string `gorm:"column:dateQuoteInit"`

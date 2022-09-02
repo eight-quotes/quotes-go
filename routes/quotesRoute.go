@@ -10,6 +10,10 @@ func QuoteRoute(router fiber.Router) {
 		return controllers.GetQuoteController(c)
 	})
 
+	router.Get("/find/:id", func(c *fiber.Ctx) error {
+		return controllers.FindQuoteController(c)
+	})
+
 	router.Post("/", func(c *fiber.Ctx) error {
 		return controllers.NewQuoteController(c)
 	})

@@ -12,11 +12,14 @@ var DB *gorm.DB
 
 func DBConnection() {
 	var err error
-	dsn := "root:j1pzxt3s0hDhz4h1MrRq@tcp(containers-us-west-60.railway.app:6561)/railway"
+	// dsn := "root:DmAB1G1aSLMrGTkdtG4M@tcp(containers-us-west-41.railway.app:6955)/railway?parseTime=true"
+	dsn := "root:45218450@tcp(127.0.0.1:3306)/quotes?parseTime=true"
+
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Println("Failed to open database connection")
 	}
+	// log.Println(DB.Exec("SELECT VERSION()"))
 	log.Println("Database connection established")
 
 	log.Println("Migrating database...")

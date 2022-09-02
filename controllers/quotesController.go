@@ -6,10 +6,17 @@ import (
 	"github.com/ochoad24/quotes-go/models"
 )
 
+func FindQuoteController(c *fiber.Ctx) error {
+	var quote models.Quote
+	id := c.Params("id")
+	connection.DB.Find(&quote, id)
+	return c.Status(fiber.StatusOK).JSON(&quote)
+}
+
 func GetQuoteController(c *fiber.Ctx) error {
 	var quotes []models.Quote
-	connection.DB.Where("is_del = ?", 0).Find(&quotes)
-
+	date := c.Query("date")
+	connection.DB.Where("is_del = ?", 0).Where("dateQuoteInit LIKE ?", date+"%").Find(&quotes)
 	return c.Status(fiber.StatusOK).JSON(&quotes)
 }
 
@@ -25,7 +32,7 @@ func NewQuoteController(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 	}
 
-	return c.Status(fiber.StatusOK).SendString("Cita creada")
+	return c.Status(fiber.StatusOK).JSON("Cita creada")
 }
 
 func UpdateQuoteController(c *fiber.Ctx) error {
@@ -37,7 +44,7 @@ func UpdateQuoteController(c *fiber.Ctx) error {
 
 	connection.DB.Where("id = ?", id).Updates(&quote)
 
-	return c.Status(fiber.StatusOK).SendString("Cita actualizada")
+	return c.Status(fiber.StatusOK).JSON("Cita actualizada")
 }
 
 func DeleteQuoteController(c *fiber.Ctx) error {
@@ -50,8 +57,8 @@ func DeleteQuoteController(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(found.Error.Error())
 	}
 
-	connection.DB.Model(&quote).Where("id = ?", id).Update("is_del", "0")
+	connection.DB.Model(&quote).Where("id = ?", id).Update("is_del", "1")
 
-	return c.Status(fiber.StatusOK).SendString("Cita eliminada")
+	return c.Status(fiber.StatusOK).JSON("Cita eliminada")
 
 }
